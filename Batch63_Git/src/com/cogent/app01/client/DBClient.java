@@ -53,7 +53,7 @@ public class DBClient {
 				int reportsTo= scanner.nextInt();
 				System.out.println("Enter the new employee's officeCode");
 				String officeCode= scanner.next();
-				scanner.nextLine();
+				scanner.nextLine();//clears \n character
 				System.out.println("Enter the new employee's Job Title");
 				String jobTitle= scanner.nextLine();
 				
