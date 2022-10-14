@@ -19,52 +19,52 @@ public class NewmartServiceImpl implements NewmartService {
 	NewmartDAO newRepo= new NewmartDAOImpl();
 
 	@Override
-	public boolean addProduct(int prodid, String prodname, int prodcat, String manufacture_date, double price,
+	public boolean addProduct(String prodname, int prodcat, String manufacture_date, double price,
 			String expiration) {
 		
-		return false;
+		return newRepo.addProduct(prodname, prodcat, manufacture_date, price, expiration);
 	}
 
 	@Override
 	public boolean deleteProductbyID(int prodid) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return newRepo.deleteProductbyID(prodid);
 	}
 
 	@Override
 	public boolean deleteProductCat(int cat) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return newRepo.deleteProductCat(cat);
 	}
 
 	@Override
 	public Product01 findCheapestProductInCat(int cat) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return newRepo.findCheapestProductInCat(cat);
 	}
 
 	@Override
 	public List<Product01> findProductsInCat(int cat) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return newRepo.findProductsInCat(cat);
 	}
 
 	@Override
 	public Product01 findproductByID(int prodid) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return newRepo.findproductByID(prodid);
 	}
 
 	@Override
 	public boolean updateProductName(int prodid, String newProdname) {
-		// TODO Auto-generated method stub
-		return false;
+		
+		return newRepo.updateProductName(prodid, newProdname);
 	}
 
 	@Override
 	public List<Product01> findExpiredProducts(String staleDate) {
-		// TODO Auto-generated method stub
-		return null;
+		
+		return newRepo.findExpiredProducts(staleDate);
 	}
 
 }

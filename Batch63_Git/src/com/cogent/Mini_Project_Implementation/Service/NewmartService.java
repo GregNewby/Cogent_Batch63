@@ -13,7 +13,7 @@ import com.cogent.Mini_Project_Implementation.Bean.Product01;
  * 
  */
 public interface NewmartService {
-	public boolean addProduct(int prodid, String prodname, int prodcat, String manufacture_date, double price,
+	public boolean addProduct(String prodname, int prodcat, String manufacture_date, double price,
 			String expiration);
 	public boolean deleteProductbyID(int prodid);
 	public boolean deleteProductCat(int cat);
