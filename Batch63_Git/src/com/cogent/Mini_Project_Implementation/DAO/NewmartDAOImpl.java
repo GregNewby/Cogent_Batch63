@@ -9,7 +9,9 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -18,7 +20,7 @@ import com.cogent.Mini_Project_Implementation.Bean.Product01;
 
 /**
  * @author Greg N.
- * @date :
+ * @date : 10-14-22
  * 
  */
 public class NewmartDAOImpl implements NewmartDAO {
@@ -41,16 +43,12 @@ public class NewmartDAOImpl implements NewmartDAO {
 			this.conn= DriverManager.getConnection(url, uname, pass);
 			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -61,25 +59,23 @@ public class NewmartDAOImpl implements NewmartDAO {
 		try {
 			conn.close();
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
 
 	@Override
-	public boolean addProduct(String prodname, int prodcat, String manufacture_date, double price,
-			String expiration) {
+	public boolean addProduct(Product01 prod1) {
 		if(this.conn==null) {
 			connect();
 		}
 		
 		try(PreparedStatement ps=conn.prepareStatement("insert into products (prodname,prodcat,manufacture_date,price,expiration) values (?,?,?,?,?);");){
 			
-			ps.setString(1, prodname);
-			ps.setInt(2, prodcat);
-			ps.setString(3, manufacture_date);
-			ps.setDouble(4, price);
-			ps.setString(5, expiration);
+			ps.setString(1, prod1.getProdname());
+			ps.setInt(2, prod1.getProdcat());
+			ps.setDate(3, java.sql.Date.valueOf(prod1.getManufacture_date()));// change from local date to SQL date
+			ps.setDouble(4, prod1.getPrice());
+			ps.setDate(5, java.sql.Date.valueOf(prod1.getExpiration()));
 			int worked= ps.executeUpdate();
 			
 			disconnect();
@@ -88,7 +84,6 @@ public class NewmartDAOImpl implements NewmartDAO {
 				return true;
 			}
 		} catch (SQLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return false;
@@ -96,44 +91,170 @@ public class NewmartDAOImpl implements NewmartDAO {
 
 	@Override
 	public boolean deleteProductbyID(int prodid) {
-		// TODO Auto-generated method stub
+		if(this.conn==null) {
+			connect();
+		}
+		
+		try(PreparedStatement ps=conn.prepareStatement("delete from products where prodid=?;");){
+			
+			ps.setInt(1, prodid);
+
+			int worked= ps.executeUpdate();
+			
+			disconnect();
+			
+			if(worked>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public boolean deleteProductCat(int cat) {
-		// TODO Auto-generated method stub
+		if(this.conn==null) {
+			connect();
+		}
+		
+		try(PreparedStatement ps=conn.prepareStatement("delete from products where prodcat=?;");){
+			
+			ps.setInt(1, cat);
+
+			int worked= ps.executeUpdate();
+			
+			disconnect();
+			
+			if(worked>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
 	public Product01 findCheapestProductInCat(int cat) {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.conn==null) {
+			connect();
+		}
+		
+		try(PreparedStatement ps=conn.prepareStatement("select * from products where price=(select min(price) from products where prodcat=?));");){
+			
+			ps.setInt(1, cat);
+
+			ResultSet result= ps.executeQuery();
+			
+			disconnect();
+			
+			while(result.next()){
+				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
+						result.getDate("manufacture_date").toLocalDate(), result.getDouble("price"), result.getDate("expiration").toLocalDate());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return this.prod;
 	}
 
 	@Override
 	public List<Product01> findProductsInCat(int cat) {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.conn==null) {
+			connect();
+		}
+		this.prodList.clear();
+		try(PreparedStatement ps=conn.prepareStatement("select * from products where prodcat=?;");){
+			
+			ps.setInt(1, cat);
+
+			ResultSet result= ps.executeQuery();
+			
+			disconnect();
+			
+			while(result.next()){
+				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
+						result.getDate("manufacture_date").toLocalDate(), result.getDouble("price"), result.getDate("expiration").toLocalDate());
+				this.prodList.add(this.prod);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return this.prodList;
 	}
 
 	@Override
 	public Product01 findproductByID(int prodid) {
-		// TODO Auto-generated method stub
-		return null;
+		if(this.conn==null) {
+			connect();
+		}
+		
+		try(PreparedStatement ps=conn.prepareStatement("select * from products where prodid=?;");){
+			
+			ps.setInt(1, prodid);
+
+			ResultSet result= ps.executeQuery();
+			
+			disconnect();
+			
+			while(result.next()){
+				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
+						result.getDate("manufacture_date").toLocalDate(), result.getDouble("price"), result.getDate("expiration").toLocalDate());
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return this.prod;
 	}
 
 	@Override
 	public boolean updateProductName(int prodid, String newProdname) {
-		// TODO Auto-generated method stub
+		if(this.conn==null) {
+			connect();
+		}
+		
+		try(PreparedStatement ps=conn.prepareStatement("update products set prodname=? where prodid=?;");){////////////////////////////////////////////
+			
+			ps.setString(1, newProdname);
+			ps.setInt(1, prodid);
+			
+			int worked= ps.executeUpdate();
+			
+			disconnect();
+			
+			if(worked>0) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 		return false;
 	}
 
 	@Override
-	public List<Product01> findExpiredProducts(String staleDate) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Product01> findExpiredProducts(LocalDate staleDate) {
+		if(this.conn==null) {
+			connect();
+		}
+		this.prodList.clear();
+		try(PreparedStatement ps=conn.prepareStatement("select * from products where expiration>?;");){
+			
+			ps.setDate(1, java.sql.Date.valueOf(staleDate));
+
+			ResultSet result= ps.executeQuery();
+			
+			disconnect();
+			
+			while(result.next()){
+				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
+						result.getDate("manufacture_date").toLocalDate(), result.getDouble("price"), result.getDate("expiration").toLocalDate());
+				this.prodList.add(this.prod);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return this.prodList;
 	}
 
 }

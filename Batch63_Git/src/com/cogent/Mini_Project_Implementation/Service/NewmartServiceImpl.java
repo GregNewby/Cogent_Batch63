@@ -3,6 +3,7 @@
  */
 package com.cogent.Mini_Project_Implementation.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 
 import com.cogent.Mini_Project_Implementation.Bean.Product01;
@@ -19,10 +20,9 @@ public class NewmartServiceImpl implements NewmartService {
 	NewmartDAO newRepo= new NewmartDAOImpl();
 
 	@Override
-	public boolean addProduct(String prodname, int prodcat, String manufacture_date, double price,
-			String expiration) {
+	public boolean addProduct(Product01 prod1) {
 		
-		return newRepo.addProduct(prodname, prodcat, manufacture_date, price, expiration);
+		return newRepo.addProduct(prod1);
 	}
 
 	@Override
@@ -62,7 +62,7 @@ public class NewmartServiceImpl implements NewmartService {
 	}
 
 	@Override
-	public List<Product01> findExpiredProducts(String staleDate) {
+	public List<Product01> findExpiredProducts(LocalDate staleDate) {
 		
 		return newRepo.findExpiredProducts(staleDate);
 	}
