@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cogent.app02;
+package com.cogent.Mini_Project_Implementation;
 
 /**
  * @author Greg N.
