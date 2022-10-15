@@ -78,7 +78,7 @@ public class NewmartDAOImpl implements NewmartDAO {
 			ps.setDate(5, java.sql.Date.valueOf(prod1.getExpiration()));
 			int worked= ps.executeUpdate();
 			
-			disconnect();
+	
 			
 			if(worked>0) {
 				return true;
@@ -101,7 +101,6 @@ public class NewmartDAOImpl implements NewmartDAO {
 
 			int worked= ps.executeUpdate();
 			
-			disconnect();
 			
 			if(worked>0) {
 				return true;
@@ -124,7 +123,7 @@ public class NewmartDAOImpl implements NewmartDAO {
 
 			int worked= ps.executeUpdate();
 			
-			disconnect();
+	
 			
 			if(worked>0) {
 				return true;
@@ -141,13 +140,13 @@ public class NewmartDAOImpl implements NewmartDAO {
 			connect();
 		}
 		
-		try(PreparedStatement ps=conn.prepareStatement("select * from products where price=(select min(price) from products where prodcat=?));");){
+		try(PreparedStatement ps=conn.prepareStatement("select * from products where price=(select min(price) from products where prodcat=?);");){
 			
 			ps.setInt(1, cat);
 
 			ResultSet result= ps.executeQuery();
 			
-			disconnect();
+			
 			
 			while(result.next()){
 				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
@@ -171,7 +170,6 @@ public class NewmartDAOImpl implements NewmartDAO {
 
 			ResultSet result= ps.executeQuery();
 			
-			disconnect();
 			
 			while(result.next()){
 				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
@@ -196,7 +194,6 @@ public class NewmartDAOImpl implements NewmartDAO {
 
 			ResultSet result= ps.executeQuery();
 			
-			disconnect();
 			
 			while(result.next()){
 				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
@@ -205,6 +202,7 @@ public class NewmartDAOImpl implements NewmartDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		disconnect();
 		return this.prod;
 	}
 
@@ -221,7 +219,6 @@ public class NewmartDAOImpl implements NewmartDAO {
 			
 			int worked= ps.executeUpdate();
 			
-			disconnect();
 			
 			if(worked>0) {
 				return true;
@@ -238,13 +235,12 @@ public class NewmartDAOImpl implements NewmartDAO {
 			connect();
 		}
 		this.prodList.clear();
-		try(PreparedStatement ps=conn.prepareStatement("select * from products where expiration>?;");){
+		try(PreparedStatement ps=conn.prepareStatement("select * from products where expiration<?;");){
 			
 			ps.setDate(1, java.sql.Date.valueOf(staleDate));
 
 			ResultSet result= ps.executeQuery();
 			
-			disconnect();
 			
 			while(result.next()){
 				this.prod= new Product01(result.getInt("prodid"), result.getString("prodname"), result.getInt("prodcat"),
@@ -254,6 +250,7 @@ public class NewmartDAOImpl implements NewmartDAO {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		
 		return this.prodList;
 	}
 

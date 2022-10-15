@@ -66,5 +66,9 @@ public class NewmartServiceImpl implements NewmartService {
 		
 		return newRepo.findExpiredProducts(staleDate);
 	}
+	
+	public void disconnect() {
+		newRepo.disconnect();
+	}
 
 }

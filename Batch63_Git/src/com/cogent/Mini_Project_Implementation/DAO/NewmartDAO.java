@@ -22,5 +22,5 @@ public interface NewmartDAO {
 	public Product01 findproductByID(int prodid);
 	public boolean updateProductName(int prodid, String newProdname);
 	public List<Product01> findExpiredProducts(LocalDate staleDate);
-
+	public void disconnect();
 }
