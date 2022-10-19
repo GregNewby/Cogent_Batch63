@@ -8,10 +8,10 @@
 		<version>2.7.4</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>com.cogent.boot</groupId>
-	<artifactId>Lab14_JPA_CRUD</artifactId>
+	<groupId>com.cogent.spring</groupId>
+	<artifactId>Lab15_JPA</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>Lab14_JPA_CRUD</name>
+	<name>Lab15_JPA</name>
 	<description>Demo project for Spring Boot</description>
 	<properties>
 		<java.version>1.8</java.version>

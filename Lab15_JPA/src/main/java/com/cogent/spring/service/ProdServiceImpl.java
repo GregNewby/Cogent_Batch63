@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.cogent.spring.bean.Product02;
-import com.cogent.spring.repo.Repo;
+import com.cogent.spring.repo.ProdRepo;
 
 /**
  * @author Greg N.
@@ -19,7 +19,7 @@ import com.cogent.spring.repo.Repo;
 @Service
 public class ProdServiceImpl implements ProdService {
 	@Autowired
-	Repo prodRepo;
+	ProdRepo prodRepo;
 	
 	@Override
 	public void addProduct(Product02 prod) {

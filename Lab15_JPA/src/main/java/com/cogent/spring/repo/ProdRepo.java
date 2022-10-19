@@ -8,12 +8,13 @@ import org.springframework.stereotype.Repository;
 
 import com.cogent.spring.bean.Product02;
 
+
 /**
  * @author Greg N.
  * @date :
  * 
  */
 @Repository
-public interface Repo extends JpaRepository<Product02, Integer> {
+public interface ProdRepo extends JpaRepository<Product02, Integer> {
 
 }

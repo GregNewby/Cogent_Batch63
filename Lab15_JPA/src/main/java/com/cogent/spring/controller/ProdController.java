@@ -25,6 +25,7 @@ public class ProdController {
 	public void run() {
 		Product02 prod= new Product02("Fruit bowl", 100, LocalDate.parse("2022-10-23"), .80, LocalDate.parse("2022-10-27"));
 		prodservice.addProduct(prod);
+		System.out.println("Done!!!");
 	}
 	
 	public void addProduct(Product02 prod) {
