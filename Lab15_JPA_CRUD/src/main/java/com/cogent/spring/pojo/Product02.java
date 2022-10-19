@@ -1,7 +1,7 @@
 /**
  * 
  */
-package com.cogent.spring.bean;
+package com.cogent.spring.pojo;
 
 import java.time.LocalDate;
 import java.util.Objects;
@@ -12,6 +12,9 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.springframework.context.annotation.Scope;
+
+
 /**
  * @author Greg N.
  * @date :
@@ -19,15 +22,16 @@ import javax.persistence.Table;
  */
 @Entity
 @Table(name="products")
+//@Scope("prototype")
 public class Product02 {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	public int prodid;
-	public String prodname;
-	public int prodcat;
-	public LocalDate manufacture_date;
-	public double price;
-	public LocalDate expiration;
+	private int prodid;
+	private String prodname;
+	private int prodcat;
+	private LocalDate manufacture_date;
+	private double price;
+	private LocalDate expiration;
 	
 	public Product02(){
 		super();
@@ -103,9 +107,10 @@ public class Product02 {
 
 	@Override
 	public String toString() {
-		return "Product01 [prodid=" + prodid + ", prodname=" + prodname + ", prodcat=" + prodcat + ", manufacture_date="
+		return "Product02 [prodid=" + prodid + ", prodname=" + prodname + ", prodcat=" + prodcat + ", manufacture_date="
 				+ manufacture_date + ", price=" + price + ", expiration=" + expiration + "]";
 	}
+
 	
 	
 }
