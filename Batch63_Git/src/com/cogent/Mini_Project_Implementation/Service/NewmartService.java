@@ -13,6 +13,7 @@ import com.cogent.Mini_Project_Implementation.Bean.Product01;
  * @date : 10-14-22
  * 
  */
+
 public interface NewmartService {
 	public boolean addProduct(Product01 prod1);
 	public boolean deleteProductbyID(int prodid);
