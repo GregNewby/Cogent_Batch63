@@ -10,6 +10,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Stack;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -20,7 +21,7 @@ import java.util.stream.Stream;
  */
 public class Practice_11_22_22 {
 	public static void main(String[] args) {
-	
+		
 	}
 
 	//remove all occurrences of given character from a string
@@ -106,6 +107,38 @@ public class Practice_11_22_22 {
 		sortedM.entrySet().stream().sorted(valComp).forEach(System.out::println);
 		
 		return sortedM;
+	}
+	
+	public static boolean parenthesis(String s) {
+		Stack stack = new Stack();
+		
+		for(int i = 0; i< s.length() ; i++) {
+			
+			if(s.charAt(i) == '{' || s.charAt(i) == '(' || s.charAt(i) == '[') {
+				stack.add(s.charAt(i));
+			}
+			if(s.charAt(i) == '}' || s.charAt(i) == ')' || s.charAt(i) == ']') {
+				if(!stack.isEmpty()) {
+					char top = (char)stack.peek();
+					
+					if(s.charAt(i) == '}' && top == '{') {
+						stack.pop();
+					}else if(s.charAt(i) == ')' && top == '(') {
+						stack.pop();
+					
+					}else if(s.charAt(i) == ']' && top == '[') {
+						stack.pop();										
+					}
+				} else {
+					return false;
+				}
+			}
+			if(i==(s.length() -1) && stack.isEmpty()) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 	
 	
